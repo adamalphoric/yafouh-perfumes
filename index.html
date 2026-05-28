@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yafouh Perfumes — The Art of Fragrance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1C1917',
+            secondary: '#44403C',
+            gold: '#CA8A04',
+            bg: '#FAFAF9',
+          },
+          fontFamily: {
+            heading: ['Cormorant Garamond', 'serif'],
+            arabic: ['Noto Naskh Arabic', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .gold-shimmer {
+      background: linear-gradient(90deg,#CA8A04,#F59E0B,#D97706,#CA8A04);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes morph {
+      0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+      50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+    }
+    .morph-blob { animation: morph 8s ease-in-out infinite; }
+    @keyframes fadeInUp {
+      from { opacity:0; transform:translateY(30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-in-up { animation: fadeInUp .8s ease-out forwards; }
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-15px); }
+    }
+    .float-anim { animation: float 6s ease-in-out infinite; }
+    @keyframes smoke {
+      0%   { opacity:0; transform:translateY(0) scale(1); }
+      50%  { opacity:.3; }
+      100% { opacity:0; transform:translateY(-80px) scale(2); }
+    }
+    .smoke { animation: smoke 4s ease-out infinite; }
+    .scroll-track { overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
+    .scroll-track::-webkit-scrollbar { display:none; }
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity .8s ease,transform .8s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .nav-link { position:relative; }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#CA8A04; transition:width .3s ease; }
+    .nav-link:hover::after { width:100%; }
+    .product-card { transition:transform .4s cubic-bezier(.4,0,.2,1),box-shadow .4s ease; }
+    .product-card:hover { transform:translateY(-8px); box-shadow:0 25px 50px rgba(202,138,4,.15); }
+    .luxury-input:focus { outline:none; border-color:#CA8A04; box-shadow:0 0 0 3px rgba(202,138,4,.15); }
+    body { font-family:'Inter',sans-serif; background:#0C0A09; color:#FAFAF9; }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:#1C1917; }
+    ::-webkit-scrollbar-thumb { background:#CA8A04; border-radius:2px; }
+    @media (prefers-reduced-motion:reduce) { *,::before,::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body class="bg-[#0C0A09] text-[#FAFAF9]">
+
+<!-- NAV -->
+<nav class="fixed top-4 left-4 right-4 z-50 glass rounded-2xl px-6 py-3 flex items-center justify-between" id="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#" class="flex items-center gap-3 cursor-pointer" aria-label="Yafouh Perfumes home">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <path d="M10 4h8v3l2 2v14a2 2 0 01-2 2H10a2 2 0 01-2-2V9l2-2V4z" fill="#CA8A04" opacity=".85"/>
+      <rect x="11" y="1" width="6" height="4" rx="1" fill="#CA8A04"/>
+      <path d="M10 12h8M10 16h8M10 20h5" stroke="#0C0A09" stroke-width=".8" stroke-linecap="round" opacity=".5"/>
+    </svg>
+    <div>
+      <span class="font-heading text-xl font-semibold tracking-widest">YAFOUH</span>
+      <span class="block text-[10px] text-[#CA8A04] tracking-[.3em] font-light">PERFUMES</span>
+    </div>
+  </a>
+  <ul class="hidden md:flex items-center gap-8">
+    <li><a href="#collections" class="nav-link text-sm text-[#D6D3D1] hover:text-white font-light tracking-wider transition-colors duration-200 cursor-pointer">Collections</a></li>
+    <li><a href="#about"       class="nav-link text-sm text-[#D6D3D1] hover:text-white font-light tracking-wider transition-colors duration-200 cursor-pointer">Our Story</a></li>
+    <li><a href="#featured"    class="nav-link text-sm text-[#D6D3D1] hover:text-white font-light tracking-wider transition-colors duration-200 cursor-pointer">Shop</a></li>
+    <li><a href="#reviews"     class="nav-link text-sm text-[#D6D3D1] hover:text-white font-light tracking-wider transition-colors duration-200 cursor-pointer">Reviews</a></li>
+  </ul>
+  <div class="flex items-center gap-3">
+    <button class="hidden md:flex items-center justify-center w-10 h-10 glass rounded-full cursor-pointer hover:border-[#CA8A04]/60 transition-colors duration-200" aria-label="Shopping cart">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.5" aria-hidden="true">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+    </button>
+    <a href="#featured" class="bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] text-sm font-medium px-5 py-2.5 rounded-full cursor-pointer transition-colors duration-200 tracking-wide">Explore</a>
+    <button class="md:hidden w-10 h-10 flex items-center justify-center cursor-pointer" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FAFAF9" stroke-width="1.5" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" class="hidden fixed inset-0 z-40 bg-[#0C0A09]/95 backdrop-blur-xl pt-24 px-8" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+  <button class="absolute top-6 right-6 text-[#A8A29E] hover:text-white cursor-pointer" onclick="closeMobile()" aria-label="Close menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <ul class="flex flex-col gap-8">
+    <li><a href="#collections" onclick="closeMobile()" class="font-heading text-3xl text-[#FAFAF9] hover:text-[#CA8A04] cursor-pointer transition-colors duration-200">Collections</a></li>
+    <li><a href="#about"       onclick="closeMobile()" class="font-heading text-3xl text-[#FAFAF9] hover:text-[#CA8A04] cursor-pointer transition-colors duration-200">Our Story</a></li>
+    <li><a href="#featured"    onclick="closeMobile()" class="font-heading text-3xl text-[#FAFAF9] hover:text-[#CA8A04] cursor-pointer transition-colors duration-200">Shop</a></li>
+    <li><a href="#reviews"     onclick="closeMobile()" class="font-heading text-3xl text-[#FAFAF9] hover:text-[#CA8A04] cursor-pointer transition-colors duration-200">Reviews</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="relative min-h-screen flex items-center overflow-hidden" aria-label="Hero">
+  <div class="absolute inset-0" aria-hidden="true">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1C1917] via-[#0C0A09] to-[#0C0A09]"></div>
+    <div class="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#CA8A04] opacity-[.07] morph-blob blur-3xl"></div>
+    <div class="absolute bottom-1/3 left-1/6 w-72 h-72 bg-[#D97706] opacity-[.05] morph-blob blur-3xl" style="animation-delay:-3s"></div>
+    <div class="absolute inset-0 opacity-[.03]" style="background-image:linear-gradient(rgba(202,138,4,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(202,138,4,.4) 1px,transparent 1px);background-size:80px 80px"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 grid lg:grid-cols-2 gap-16 items-center">
+    <!-- Text -->
+    <div class="fade-in-up">
+      <p class="font-arabic text-[#CA8A04] text-2xl mb-2 tracking-wide" lang="ar" dir="rtl">يفوح عطرك في كل مكان</p>
+      <p class="text-xs text-[#A8A29E] tracking-[.35em] mb-7 font-light">YOUR SCENT. YOUR STORY.</p>
+      <h1 class="font-heading text-6xl lg:text-7xl xl:text-8xl font-light leading-tight mb-8">
+        The Art of<br>
+        <span class="gold-shimmer font-semibold italic">Eternal</span><br>
+        Fragrance
+      </h1>
+      <p class="text-[#A8A29E] text-lg leading-relaxed max-w-lg mb-10 font-light">
+        Born from the ancient traditions of Arabian perfumery, Yafouh blends rare oud,
+        precious amber, and exotic florals into fragrances that tell your story.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="#collections" class="inline-flex items-center justify-center gap-2 bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] px-8 py-4 rounded-full font-medium text-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-[#CA8A04]/20 tracking-wide">
+          Explore Collections
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#about" class="inline-flex items-center justify-center glass border border-[#44403C] hover:border-[#CA8A04]/50 text-[#FAFAF9] px-8 py-4 rounded-full font-light text-sm cursor-pointer transition-all duration-300 tracking-wide">
+          Our Story
+        </a>
+      </div>
+      <!-- Stats -->
+      <div class="mt-14 flex gap-10 pt-10 border-t border-[#292524]">
+        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]">150+</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Unique Scents</p></div>
+        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]">25k+</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Happy Customers</p></div>
+        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]">18</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Countries</p></div>
+      </div>
+    </div>
+
+    <!-- Bottle illustration -->
+    <div class="relative flex items-center justify-center float-anim" aria-label="Yafouh perfume bottle">
+      <div class="absolute w-80 h-80 rounded-full bg-gradient-to-br from-[#CA8A04]/25 to-transparent blur-3xl" aria-hidden="true"></div>
+      <svg width="220" height="340" viewBox="0 0 220 340" fill="none" style="filter:drop-shadow(0 0 40px rgba(202,138,4,.35))" aria-hidden="true">
+        <defs>
+          <linearGradient id="bG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#3D3530"/>
+            <stop offset="50%"  stop-color="#1C1917"/>
+            <stop offset="100%" stop-color="#0C0A09"/>
+          </linearGradient>
+          <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#92400E"/>
+            <stop offset="50%"  stop-color="#CA8A04"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </linearGradient>
+          <linearGradient id="lG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#78350F" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#92400E" stop-opacity=".5"/>
+          </linearGradient>
+          <linearGradient id="sG" x1="0%" y1="0%" x2="60%" y2="100%">
+            <stop offset="0%"   stop-color="#fff" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Shadow -->
+        <ellipse cx="110" cy="330" rx="52" ry="8" fill="#000" opacity=".35"/>
+        <!-- Cap outer -->
+        <rect x="78" y="40" width="64" height="55" rx="7" fill="url(#gG)"/>
+        <!-- Cap inner -->
+        <rect x="82" y="44" width="56" height="47" rx="5" fill="url(#bG)"/>
+        <rect x="84" y="46" width="22" height="43" rx="4" fill="url(#sG)"/>
+        <!-- Neck -->
+        <rect x="90" y="93" width="40" height="32" rx="5" fill="url(#gG)"/>
+        <rect x="93" y="96" width="34" height="27" rx="4" fill="url(#bG)"/>
+        <!-- Body -->
+        <path d="M55 130 Q38 152 38 200 L38 282 Q38 308 110 308 Q182 308 182 282 L182 200 Q182 152 165 130 Z" fill="url(#bG)" stroke="url(#gG)" stroke-width="1.2"/>
+        <!-- Liquid -->
+        <path d="M60 178 Q55 202 55 242 L55 272 Q55 294 110 294 Q165 294 165 272 L165 242 Q165 202 160 178 Z" fill="url(#lG)" opacity=".75"/>
+        <ellipse cx="110" cy="180" rx="48" ry="6" fill="#D97706" opacity=".25"/>
+        <!-- Body shine -->
+        <path d="M65 136 Q58 162 58 202 L58 262 Q70 292 82 292 L77 262 Q77 202 82 152 Z" fill="url(#sG)"/>
+        <!-- Label -->
+        <rect x="62" y="198" width="96" height="76" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(202,138,4,.35)" stroke-width=".8"/>
+        <text x="110" y="228" text-anchor="middle" fill="#CA8A04" font-size="13" font-family="Cormorant Garamond,serif" font-weight="600" letter-spacing="4">YAFOUH</text>
+        <line x1="75" y1="235" x2="145" y2="235" stroke="#CA8A04" stroke-width=".5" opacity=".5"/>
+        <text x="110" y="250" text-anchor="middle" fill="#A8A29E" font-size="7"   font-family="sans-serif" letter-spacing="3">PERFUMES</text>
+        <text x="110" y="264" text-anchor="middle" fill="#78716C" font-size="6.5" font-family="serif"      letter-spacing="1" font-style="italic">Oud &amp; Amber Essence</text>
+        <!-- Base shine -->
+        <ellipse cx="110" cy="298" rx="46" ry="5" fill="url(#gG)" opacity=".18"/>
+      </svg>
+      <!-- Smoke particles -->
+      <div class="absolute top-6 left-1/2 -translate-x-1/2" aria-hidden="true">
+        <div class="w-2 h-2 rounded-full bg-[#CA8A04] opacity-60 smoke"></div>
+        <div class="absolute -left-5 top-3 w-1.5 h-1.5 rounded-full bg-[#D97706] opacity-40 smoke" style="animation-delay:1.6s"></div>
+        <div class="absolute left-7  top-1 w-1   h-1   rounded-full bg-[#CA8A04] opacity-50 smoke" style="animation-delay:.9s"></div>
+      </div>
+      <!-- Decorative rings -->
+      <div class="absolute w-64 h-64 rounded-full border border-[#CA8A04]/10" aria-hidden="true"></div>
+      <div class="absolute w-96 h-96 rounded-full border border-[#CA8A04]/05" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" aria-hidden="true">
+    <p class="text-[#78716C] text-[10px] tracking-[.35em]">SCROLL</p>
+    <div class="w-px h-10 bg-gradient-to-b from-[#CA8A04] to-transparent"></div>
+  </div>
+</section>
+
+<!-- COLLECTIONS -->
+<section id="collections" class="py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" aria-label="Collections">
+  <div class="text-center mb-16 reveal">
+    <p class="text-[#CA8A04] text-xs tracking-[.4em] font-light mb-3">CURATED FOR YOU</p>
+    <h2 class="font-heading text-5xl lg:text-6xl font-light">Our Collections</h2>
+    <div class="w-16 h-px bg-[#CA8A04] mx-auto mt-6"></div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <!-- Card helper: dark bottle SVG -->
+    <!-- OUD ROYALE -->
+    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card" aria-label="Oud Royale — $185">
+      <div class="h-72 relative bg-gradient-to-br from-[#292524] to-[#1C1917] overflow-hidden flex items-center justify-center">
+        <div class="absolute w-44 h-44 rounded-full bg-[#CA8A04] opacity-[.18] morph-blob blur-2xl group-hover:opacity-25 transition-opacity duration-500" aria-hidden="true"></div>
+        <svg width="75" height="120" viewBox="0 0 75 120" fill="none" class="relative z-10" aria-hidden="true">
+          <defs><linearGradient id="c1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#44403C"/><stop offset="100%" stop-color="#1C1917"/></linearGradient></defs>
+          <rect x="24" y="10" width="27" height="21" rx="3" fill="url(#c1)" stroke="#CA8A04" stroke-width=".8"/>
+          <rect x="27" y="30" width="21" height="11" rx="2" fill="#CA8A04" opacity=".85"/>
+          <path d="M12 44Q8 54 8 74L8 102Q8 114 37.5 114Q67 114 67 102L67 74Q67 54 63 44Z" fill="url(#c1)" stroke="#CA8A04" stroke-width=".8"/>
+          <path d="M16 66Q15 74 15 88L15 100Q15 109 37.5 109Q60 109 60 100L60 88Q60 74 59 66Z" fill="#78350F" opacity=".45"/>
+          <text x="37.5" y="90" text-anchor="middle" fill="#CA8A04" font-size="4" font-family="serif" letter-spacing="1.5">YAFOUH</text>
+        </svg>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-transparent to-transparent"></div>
+      </div>
+      <div class="bg-[#1C1917]/90 backdrop-blur-xl p-6 border border-[#292524] group-hover:border-[#CA8A04]/40 transition-colors duration-500 rounded-b-3xl">
+        <div class="flex items-start justify-between mb-2">
+          <div>
+            <p class="text-[#CA8A04] text-[10px] tracking-[.3em] font-light mb-1">ORIENTAL</p>
+            <h3 class="font-heading text-2xl">Oud Royale</h3>
+          </div>
+          <span class="text-[#CA8A04] font-heading text-xl">$185</span>
+        </div>
+        <p class="text-[#A8A29E] text-sm font-light leading-relaxed mb-4">Rich aged oud enveloped in warm amber, saffron, and a whisper of rose.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-[#CA8A04] text-sm tracking-wider" aria-label="5 stars">★★★★★</span>
+          <button class="text-[#CA8A04] text-sm hover:text-[#D97706] cursor-pointer transition-colors duration-200 flex items-center gap-1.5" aria-label="Add Oud Royale to cart">
+            Add to Cart <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- DESERT ROSE (featured) -->
+    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card md:-mt-8" aria-label="Desert Rose — $145, bestseller">
+      <div class="absolute inset-0 rounded-3xl border border-[#CA8A04]/45 z-10 pointer-events-none"></div>
+      <div class="h-88 relative bg-gradient-to-br from-[#3B2B1A] to-[#1C1917] overflow-hidden flex items-center justify-center" style="height:22rem">
+        <div class="absolute w-52 h-52 rounded-full bg-[#D97706] opacity-20 morph-blob blur-2xl group-hover:opacity-30 transition-opacity duration-500" aria-hidden="true" style="animation-delay:-2s"></div>
+        <div class="absolute top-4 right-4 z-20 bg-[#CA8A04] text-[#0C0A09] text-[10px] font-semibold px-3 py-1 rounded-full tracking-widest">BESTSELLER</div>
+        <svg width="85" height="138" viewBox="0 0 85 138" fill="none" class="relative z-10" aria-hidden="true">
+          <defs><linearGradient id="c2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B2B1A"/><stop offset="100%" stop-color="#1C1917"/></linearGradient></defs>
+          <rect x="28" y="10" width="29" height="23" rx="3" fill="url(#c2)" stroke="#CA8A04" stroke-width="1"/>
+          <rect x="31" y="32" width="23" height="13" rx="2" fill="#CA8A04" opacity=".9"/>
+          <path d="M14 48Q10 60 10 84L10 118Q10 132 42.5 132Q75 132 75 118L75 84Q75 60 71 48Z" fill="url(#c2)" stroke="#CA8A04" stroke-width="1"/>
+          <path d="M18 74Q16 84 16 102L16 114Q16 126 42.5 126Q69 126 69 114L69 102Q69 84 67 74Z" fill="#92400E" opacity=".5"/>
+          <text x="42.5" y="102" text-anchor="middle" fill="#CA8A04" font-size="4.5" font-family="serif" letter-spacing="1.5">YAFOUH</text>
+        </svg>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-transparent to-transparent"></div>
+      </div>
+      <div class="bg-[#1C1917]/90 backdrop-blur-xl p-6 border-x border-b border-[#CA8A04]/45 rounded-b-3xl">
+        <div class="flex items-start justify-between mb-2">
+          <div>
+            <p class="text-[#CA8A04] text-[10px] tracking-[.3em] font-light mb-1">FLORAL ORIENTAL</p>
+            <h3 class="font-heading text-2xl">Desert Rose</h3>
+          </div>
+          <span class="text-[#CA8A04] font-heading text-xl">$145</span>
+        </div>
+        <p class="text-[#A8A29E] text-sm font-light leading-relaxed mb-4">Wild Taif roses kissed by golden amber, musk, and Moroccan sandalwood.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-[#CA8A04] text-sm tracking-wider" aria-label="5 stars">★★★★★</span>
+          <button class="bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] text-sm font-medium px-4 py-2 rounded-full cursor-pointer transition-colors duration-200" aria-label="Add Desert Rose to cart">Add to Cart</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- AMBER NIGHTS -->
+    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card" aria-label="Amber Nights — $165">
+      <div class="h-72 relative bg-gradient-to-br from-[#1C2028] to-[#0C0A09] overflow-hidden flex items-center justify-center">
+        <div class="absolute w-44 h-44 rounded-full bg-[#4F46E5] opacity-[.12] morph-blob blur-2xl group-hover:opacity-20 transition-opacity duration-500" aria-hidden="true" style="animation-delay:-4s"></div>
+        <svg width="75" height="120" viewBox="0 0 75 120" fill="none" class="relative z-10" aria-hidden="true">
+          <defs><linearGradient id="c3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1C2028"/><stop offset="100%" stop-color="#0C0A09"/></linearGradient></defs>
+          <rect x="24" y="10" width="27" height="21" rx="3" fill="url(#c3)" stroke="#CA8A04" stroke-width=".8"/>
+          <rect x="27" y="30" width="21" height="11" rx="2" fill="#CA8A04" opacity=".85"/>
+          <path d="M12 44Q8 54 8 74L8 102Q8 114 37.5 114Q67 114 67 102L67 74Q67 54 63 44Z" fill="url(#c3)" stroke="#CA8A04" stroke-width=".8"/>
+          <path d="M16 66Q15 74 15 88L15 100Q15 109 37.5 109Q60 109 60 100L60 88Q60 74 59 66Z" fill="#312E81" opacity=".45"/>
+          <text x="37.5" y="90" text-anchor="middle" fill="#CA8A04" font-size="4" font-family="serif" letter-spacing="1.5">YAFOUH</text>
+        </svg>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-transparent to-transparent"></div>
+      </div>
+      <div class="bg-[#1C1917]/90 backdrop-blur-xl p-6 border border-[#292524] group-hover:border-[#CA8A04]/40 transition-colors duration-500 rounded-b-3xl">
+        <div class="flex items-start justify-between mb-2">
+          <div>
+            <p class="text-[#CA8A04] text-[10px] tracking-[.3em] font-light mb-1">WOODY AMBER</p>
+            <h3 class="font-heading text-2xl">Amber Nights</h3>
+          </div>
+          <span class="text-[#CA8A04] font-heading text-xl">$165</span>
+        </div>
+        <p class="text-[#A8A29E] text-sm font-light leading-relaxed mb-4">Dark benzoin, vanilla absolute, and cedarwood in a sensual nocturnal embrace.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-[#CA8A04] text-sm tracking-wider" aria-label="5 stars">★★★★★</span>
+          <button class="text-[#CA8A04] text-sm hover:text-[#D97706] cursor-pointer transition-colors duration-200 flex items-center gap-1.5" aria-label="Add Amber Nights to cart">
+            Add to Cart <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-28 relative overflow-hidden" aria-label="About Yafouh">
+  <div class="absolute inset-0 bg-gradient-to-b from-[#0C0A09] via-[#1C1917] to-[#0C0A09]" aria-hidden="true"></div>
+  <div class="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-[#CA8A04] opacity-[.05] morph-blob blur-3xl" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Calligraphy card -->
+      <div class="relative reveal order-2 lg:order-1">
+        <div class="glass rounded-3xl p-10 border border-[#44403C]/40">
+          <p class="font-arabic text-5xl text-[#CA8A04] text-center mb-5 leading-relaxed" lang="ar" dir="rtl">عطر يبقى في الذاكرة</p>
+          <p class="text-[#78716C] text-center text-sm font-light tracking-wider">"A fragrance that lingers in memory"</p>
+        </div>
+        <div class="glass absolute -bottom-5 -right-3 rounded-2xl px-5 py-3 border border-[#44403C]/30">
+          <p class="text-[#CA8A04] font-heading text-2xl font-semibold">2009</p>
+          <p class="text-[#78716C] text-xs font-light tracking-wider">Est. in Arabia</p>
+        </div>
+        <div class="glass absolute -top-4 -left-3 rounded-2xl px-5 py-3 border border-[#44403C]/30">
+          <p class="text-[#CA8A04] font-heading text-xl font-semibold">100%</p>
+          <p class="text-[#78716C] text-xs font-light tracking-wider">Pure Oils</p>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="reveal order-1 lg:order-2">
+        <p class="text-[#CA8A04] text-xs tracking-[.4em] font-light mb-3">OUR HERITAGE</p>
+        <h2 class="font-heading text-5xl font-light mb-6 leading-snug">
+          Crafted with Centuries<br><span class="italic text-[#CA8A04]">of Wisdom</span>
+        </h2>
+        <p class="text-[#A8A29E] leading-relaxed mb-5 font-light text-lg">
+          Yafouh was founded on a single belief: fragrance is the most intimate form of expression.
+          Rooted in the souk traditions of the Arabian Peninsula, each perfume is a handcrafted story.
+        </p>
+        <p class="text-[#78716C] leading-relaxed mb-8 font-light">
+          Our master perfumers source only the finest raw ingredients — oud chips aged for decades,
+          Bulgarian roses harvested at dawn, rare Himalayan musk — blending them into compositions
+          that evolve beautifully on your skin.
+        </p>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-[#CA8A04]/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="text-[#D6D3D1] text-sm font-light">Ethically sourced, sustainably crafted</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-[#CA8A04]/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="text-[#D6D3D1] text-sm font-light">No synthetic shortcuts — only pure oil blends</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-[#CA8A04]/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="text-[#D6D3D1] text-sm font-light">Cruelty-free, certified by IFRA standards</span>
+          </li>
+        </ul>
+        <a href="#collections" class="inline-flex items-center gap-2 mt-8 text-[#CA8A04] hover:text-[#D97706] text-sm tracking-wider cursor-pointer transition-colors duration-200 group">
+          Discover All Fragrances
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP — HORIZONTAL SCROLL -->
+<section id="featured" class="py-28" aria-label="All fragrances">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+    <div class="flex items-end justify-between reveal">
+      <div>
+        <p class="text-[#CA8A04] text-xs tracking-[.4em] font-light mb-3">DISCOVER MORE</p>
+        <h2 class="font-heading text-5xl font-light">All Fragrances</h2>
+      </div>
+      <a href="#" class="hidden md:flex items-center gap-2 text-[#CA8A04] hover:text-[#D97706] text-sm tracking-wider cursor-pointer transition-colors duration-200 group">
+        View All <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-track px-4 sm:px-6 lg:px-8">
+    <div class="flex gap-5 pb-4" style="width:max-content">
+
+      <!-- Reusable mini-bottle colors: spicy=#78350F, musky=#312E81, woody=#064E3B, luxe=#78350F, floral=#831843, fresh=#0C4A6E -->
+      <!-- Item template (6 cards) -->
+      <!-- 1 Saffron Mirage -->
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Saffron Mirage $120">
+        <div class="h-52 bg-gradient-to-br from-[#3B2B1A] to-[#1C1917] relative flex items-center justify-center">
+          <div class="absolute w-24 h-24 rounded-full bg-[#CA8A04] opacity-20 blur-xl" aria-hidden="true"></div>
+          <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
+            <defs><linearGradient id="p1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B2B1A"/><stop offset="100%" stop-color="#1C1917"/></linearGradient></defs>
+            <rect x="18" y="5" width="19" height="15" rx="2" fill="url(#p1)" stroke="#CA8A04" stroke-width=".7"/>
+            <rect x="20" y="19" width="15" height="9"  rx="1.5" fill="#CA8A04" opacity=".8"/>
+            <path d="M10 30Q7 38 7 54L7 76Q7 84 27.5 84Q48 84 48 76L48 54Q48 38 45 30Z" fill="url(#p1)" stroke="#CA8A04" stroke-width=".7"/>
+            <path d="M13 48Q12 54 12 65L12 74Q12 80 27.5 80Q43 80 43 74L43 65Q43 54 42 48Z" fill="#78350F" opacity=".4"/>
+            <text x="27.5" y="67" text-anchor="middle" fill="#CA8A04" font-size="3.5" font-family="serif" letter-spacing="1">YAFOUH</text>
+          </svg>
+        </div>
+        <div class="p-4">
+          <p class="text-[#CA8A04] text-[10px] tracking-[.2em] mb-1">SPICY</p>
+          <h3 class="font-heading text-lg mb-1">Saffron Mirage</h3>
+          <p class="text-[#78716C] text-xs font-light mb-3">Saffron · Rose · Sandalwood</p>
+          <div class="flex items-center justify-between">
+            <span class="text-[#CA8A04] text-sm">$120</span>
+            <button class="text-[#78716C] hover:text-[#CA8A04] transition-colors duration-200 cursor-pointer" aria-label="Add Saffron Mirage to cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.49l1.65-7.59H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 Musk Velvet -->
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Musk Velvet $95">
+        <div class="h-52 bg-gradient-to-br from-[#1C1C2A] to-[#0C0A09] relative flex items-center justify-center">
+          <div class="absolute w-24 h-24 rounded-full bg-[#818CF8] opacity-15 blur-xl" aria-hidden="true"></div>
+          <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
+            <defs><linearGradient id="p2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1C1C2A"/><stop offset="100%" stop-color="#0C0A09"/></linearGradient></defs>
+            <rect x="18" y="5" width="19" height="15" rx="2" fill="url(#p2)" stroke="#CA8A04" stroke-width=".7"/>
+            <rect x="20" y="19" width="15" height="9"  rx="1.5" fill="#CA8A04" opacity=".8"/>
+            <path d="M10 30Q7 38 7 54L7 76Q7 84 27.5 84Q48 84 48 76L48 54Q48 38 45 30Z" fill="url(#p2)" stroke="#CA8A04" stroke-width=".7"/>
+            <path d="M13 48Q12 54 12 65L12 74Q12 80 27.5 80Q43 80 43 74L43 65Q43 54 42 48Z" fill="#312E81" opacity=".4"/>
+            <text x="27.5" y="67" text-anchor="middle" fill="#CA8A04" font-size="3.5" font-family="serif" letter-spacing="1">YAFOUH</text>
+          </svg>
+        </div>
+        <div class="p-4">
+          <p class="text-[#CA8A04] text-[10px] tracking-[.2em] mb-1">MUSKY</p>
+          <h3 class="font-heading text-lg mb-1">Musk Velvet</h3>
+          <p class="text-[#78716C] text-xs font-light mb-3">White Musk · Vanilla · Iris</p>
+          <div class="flex items-center justify-between">
+            <span class="text-[#CA8A04] text-sm">$95</span>
+            <button class="text-[#78716C] hover:text-[#CA8A04] transition-colors duration-200 cursor-pointer" aria-label="Add Musk Velvet to cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.49l1.65-7.59H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 Cedar & Smoke -->
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Cedar and Smoke $110">
+        <div class="h-52 bg-gradient-to-br from-[#1C2020] to-[#0C0A09] relative flex items-center justify-center">
+          <div class="absolute w-24 h-24 rounded-full bg-[#059669] opacity-12 blur-xl" aria-hidden="true"></div>
+          <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
+            <defs><linearGradient id="p3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1C2020"/><stop offset="100%" stop-color="#0C0A09"/></linearGradient></defs>
+            <rect x="18" y="5" width="19" height="15" rx="2" fill="url(#p3)" stroke="#CA8A04" stroke-width=".7"/>
+            <rect x="20" y="19" width="15" height="9"  rx="1.5" fill="#CA8A04" opacity=".8"/>
+            <path d="M10 30Q7 38 7 54L7 76Q7 84 27.5 84Q48 84 48 76L48 54Q48 38 45 30Z" fill="url(#p3)" stroke="#CA8A04" stroke-width=".7"/>
+            <path d="M13 48Q12 54 12 65L12 74Q12 80 27.5 80Q43 80 43 74L43 65Q43 54 42 48Z" fill="#064E3B" opacity=".45"/>
+            <text x="27.5" y="67" text-anchor="middle" fill="#CA8A04" font-size="3.5" font-family="serif" letter-spacing="1">YAFOUH</text>
+          </svg>
+        </div>
+        <div class="p-4">
+          <p class="text-[#CA8A04] text-[10px] tracking-[.2em] mb-1">WOODY</p>
+          <h3 class="font-heading text-lg mb-1">Cedar &amp; Smoke</h3>
+          <p class="text-[#78716C] text-xs font-light mb-3">Cedarwood · Incense · Birch</p>
+          <div class="flex items-center justify-between">
+            <span class="text-[#CA8A04] text-sm">$110</span>
+            <button class="text-[#78716C] hover:text-[#CA8A04] transition-colors duration-200 cursor-pointer" aria-label="Add Cedar and Smoke to cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.49l1.65-7.59H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 Gold Velvet -->
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Gold Velvet $220">
+        <div class="h-52 bg-gradient-to-br from-[#2A2010] to-[#1C1917] relative flex items-center justify-center">
+          <div class="absolute w-24 h-24 rounded-full bg-[#F59E0B] opacity-20 blur-xl" aria-hidden="true"></div>
+          <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
+            <defs><linearGradient id="p4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2A2010"/><stop offset="100%" stop-color="#1C1917"/></linearGradient></defs>
+            <rect x="18" y="5" width="19" height="15" rx="2" fill="url(#p4)" stroke="#CA8A04" stroke-width=".7"/>
+            <rect x="20" y="19" width="15" height="9"  rx="1.5" fill="#CA8A04" opacity=".9"/>
+            <path d="M10 30Q7 38 7 54L7 76Q7 84 27.5 84Q48 84 48 76L48 54Q48 38 45 30Z" fill="url(#p4)" stroke="#CA8A04" stroke-width=".7"/>
+            <path d="M13 48Q12 54 12 65L12 74Q12 80 27.5 80Q43 80 43 74L43 65Q43 54 42 48Z" fill="#78350F" opacity=".5"/>
+            <text x="27.5" y="67" text-anchor="middle" fill="#CA8A04" font-size="3.5" font-family="serif" letter-spacing="1">YAFOUH</text>
+          </svg>
+        </div>
+        <div class="p-4">
+          <p class="text-[#CA8A04] text-[10px] tracking-[.2em] mb-1">LUXE</p>
+          <h3 class="font-heading text-lg mb-1">Gold Velvet</h3>
+          <p class="text-[#78716C] text-xs font-light mb-3">Amber · Gold Labdanum · Musk</p>
+          <div class="flex items-center justify-between">
+            <span class="text-[#CA8A04] text-sm">$220</span>
+            <button class="text-[#78716C] hover:text-[#CA8A04] transition-colors duration-200 cursor-pointer" aria-label="Add Gold Velvet to cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.49l1.65-7.59H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 Rose Oud -->
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Rose Oud $175">
+        <div class="h-52 bg-gradient-to-br from-[#2A1020] to-[#1C0C14] relative flex items-center justify-center">
+          <div class="absolute w-24 h-24 rounded-full bg-[#EC4899] opacity-15 blur-xl" aria-hidden="true"></div>
+          <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
+            <defs><linearGradient id="p5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2A1020"/><stop offset="100%" stop-color="#1C0C14"/></linearGradient></defs>
+            <rect x="18" y="5" width="19" height="15" rx="2" fill="url(#p5)" stroke="#CA8A04" stroke-width=".7"/>
+            <rect x="20" y="19" width="15" height="9"  rx="1.5" fill="#CA8A04" opacity=".8"/>
+            <path d="M10 30Q7 38 7 54L7 76Q7 84 27.5 84Q48 84 48 76L48 54Q48 38 45 30Z" fill="url(#p5)" stroke="#CA8A04" stroke-width=".7"/>
+            <path d="M13 48Q12 54 12 65L12 74Q12 80 27.5 80Q43 80 43 74L43 65Q43 54 42 48Z" fill="#831843" opacity=".4"/>
+            <text x="27.5" y="67" text-anchor="middle" fill="#CA8A04" font-size="3.5" font-family="serif" letter-spacing="1">YAFOUH</text>
+          </svg>
+        </div>
+        <div class="p-4">
+          <p class="text-[#CA8A04] text-[10px] tracking-[.2em] mb-1">FLORAL</p>
+          <h3 class="font-heading text-lg mb-1">Rose Oud</h3>
+          <p class="text-[#78716C] text-xs font-light mb-3">Damask Rose · Oud · Patchouli</p>
+          <div class="flex items-center justify-between">
+            <span class="text-[#CA8A04] text-sm">$175</span>
+            <button class="text-[#78716C] hover:text-[#CA8A04] transition-colors duration-200 cursor-pointer" aria-label="Add Rose Oud to cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.49l1.65-7.59H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 Aqua Arabica -->
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Aqua Arabica $85">
+        <div class="h-52 bg-gradient-to-br from-[#0C1A28] to-[#0C0A09] relative flex items-center justify-center">
+          <div class="absolute w-24 h-24 rounded-full bg-[#38BDF8] opacity-15 blur-xl" aria-hidden="true"></div>
+          <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
+            <defs><linearGradient id="p6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0C1A28"/><stop offset="100%" stop-color="#0C0A09"/></linearGradient></defs>
+            <rect x="18" y="5" width="19" height="15" rx="2" fill="url(#p6)" stroke="#CA8A04" stroke-width=".7"/>
+            <rect x="20" y="19" width="15" height="9"  rx="1.5" fill="#CA8A04" opacity=".8"/>
+            <path d="M10 30Q7 38 7 54L7 76Q7 84 27.5 84Q48 84 48 76L48 54Q48 38 45 30Z" fill="url(#p6)" stroke="#CA8A04" stroke-width=".7"/>
+            <path d="M13 48Q12 54 12 65L12 74Q12 80 27.5 80Q43 80 43 74L43 65Q43 54 42 48Z" fill="#0C4A6E" opacity=".5"/>
+            <text x="27.5" y="67" text-anchor="middle" fill="#CA8A04" font-size="3.5" font-family="serif" letter-spacing="1">YAFOUH</text>
+          </svg>
+        </div>
+        <div class="p-4">
+          <p class="text-[#CA8A04] text-[10px] tracking-[.2em] mb-1">FRESH</p>
+          <h3 class="font-heading text-lg mb-1">Aqua Arabica</h3>
+          <p class="text-[#78716C] text-xs font-light mb-3">Sea Salt · Bergamot · Vetiver</p>
+          <div class="flex items-center justify-between">
+            <span class="text-[#CA8A04] text-sm">$85</span>
+            <button class="text-[#78716C] hover:text-[#CA8A04] transition-colors duration-200 cursor-pointer" aria-label="Add Aqua Arabica to cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.49l1.65-7.59H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="py-28 px-4 sm:px-6 lg:px-8" aria-label="Customer reviews">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-[#CA8A04] text-xs tracking-[.4em] font-light mb-3">WHAT THEY SAY</p>
+      <h2 class="font-heading text-5xl font-light">Voices of Devotion</h2>
+      <div class="w-16 h-px bg-[#CA8A04] mx-auto mt-6"></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <blockquote class="glass rounded-2xl p-7 border border-[#292524] hover:border-[#CA8A04]/30 transition-colors duration-300 reveal">
+        <p class="text-[#CA8A04] tracking-wider mb-4" aria-label="5 stars">★★★★★</p>
+        <p class="text-[#D6D3D1] font-light leading-relaxed mb-6 italic">
+          "Oud Royale is unlike anything I've worn before. It stays all day, transforming from something bold in the morning to something intimate by evening."
+        </p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#CA8A04]/40 to-[#44403C] flex items-center justify-center flex-shrink-0" aria-hidden="true">
+            <span class="font-heading text-[#CA8A04] text-sm font-semibold">FH</span>
+          </div>
+          <div>
+            <cite class="text-[#FAFAF9] text-sm font-medium not-italic">Fatima Al-Hassan</cite>
+            <p class="text-[#78716C] text-xs font-light">Dubai, UAE</p>
+          </div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="glass rounded-2xl p-7 border border-[#CA8A04]/35 transition-colors duration-300 reveal" style="transition-delay:.12s">
+        <p class="text-[#CA8A04] tracking-wider mb-4" aria-label="5 stars">★★★★★</p>
+        <p class="text-[#D6D3D1] font-light leading-relaxed mb-6 italic">
+          "I gifted Desert Rose to my wife and she hasn't stopped wearing it. The quality is extraordinary — you can feel how carefully each note is chosen."
+        </p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#CA8A04]/40 to-[#44403C] flex items-center justify-center flex-shrink-0" aria-hidden="true">
+            <span class="font-heading text-[#CA8A04] text-sm font-semibold">MT</span>
+          </div>
+          <div>
+            <cite class="text-[#FAFAF9] text-sm font-medium not-italic">Marcus Theron</cite>
+            <p class="text-[#78716C] text-xs font-light">London, UK</p>
+          </div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="glass rounded-2xl p-7 border border-[#292524] hover:border-[#CA8A04]/30 transition-colors duration-300 reveal" style="transition-delay:.24s">
+        <p class="text-[#CA8A04] tracking-wider mb-4" aria-label="5 stars">★★★★★</p>
+        <p class="text-[#D6D3D1] font-light leading-relaxed mb-6 italic">
+          "Amber Nights is pure magic. Wearing it feels like being wrapped in luxury. Compliments everywhere. Yafouh understands true Arabian perfumery."
+        </p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#CA8A04]/40 to-[#44403C] flex items-center justify-center flex-shrink-0" aria-hidden="true">
+            <span class="font-heading text-[#CA8A04] text-sm font-semibold">AQ</span>
+          </div>
+          <div>
+            <cite class="text-[#FAFAF9] text-sm font-medium not-italic">Amira Qassim</cite>
+            <p class="text-[#78716C] text-xs font-light">Riyadh, KSA</p>
+          </div>
+        </footer>
+      </blockquote>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden" aria-label="Newsletter signup">
+  <div class="absolute inset-0 bg-gradient-to-br from-[#1C1917] to-[#0C0A09]" aria-hidden="true"></div>
+  <div class="absolute inset-0 opacity-[.04]" style="background-image:radial-gradient(circle at 2px 2px,#CA8A04 1px,transparent 0);background-size:40px 40px" aria-hidden="true"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-64 bg-[#CA8A04] opacity-[.05] blur-3xl rounded-full" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-xl mx-auto text-center reveal">
+    <p class="font-arabic text-[#CA8A04] text-2xl mb-2" lang="ar" dir="rtl">كن أول من يكتشف</p>
+    <p class="text-[#CA8A04] text-xs tracking-[.4em] font-light mb-4">JOIN THE CIRCLE</p>
+    <h2 class="font-heading text-5xl font-light mb-5">
+      The First Scent of<br><span class="italic text-[#CA8A04]">Every Season</span>
+    </h2>
+    <p class="text-[#A8A29E] font-light text-base leading-relaxed mb-10">
+      Subscribe for exclusive launches, scent stories, and 15% off your first order.
+      Join 25,000+ fragrance devotees worldwide.
+    </p>
+    <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="return false;" aria-label="Newsletter form">
+      <label for="emailInput" class="sr-only">Your email address</label>
+      <input id="emailInput" type="email" placeholder="your@email.com" required
+        class="luxury-input flex-1 bg-[#1C1917]/80 border border-[#44403C] text-[#FAFAF9] placeholder-[#78716C] px-5 py-3.5 rounded-full font-light text-sm transition-all duration-200">
+      <button type="submit" class="bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] px-7 py-3.5 rounded-full font-medium text-sm cursor-pointer transition-colors duration-200 tracking-wide whitespace-nowrap">
+        Subscribe
+      </button>
+    </form>
+    <p class="text-[#57534E] text-xs font-light mt-4">No spam. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-[#292524] py-16 px-4 sm:px-6 lg:px-8" role="contentinfo">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <a href="#" class="flex items-center gap-3 mb-5 cursor-pointer" aria-label="Yafouh Perfumes">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <path d="M10 4h8v3l2 2v14a2 2 0 01-2 2H10a2 2 0 01-2-2V9l2-2V4z" fill="#CA8A04" opacity=".85"/>
+            <rect x="11" y="1" width="6" height="4" rx="1" fill="#CA8A04"/>
+          </svg>
+          <div>
+            <span class="font-heading text-lg font-semibold tracking-widest">YAFOUH</span>
+            <span class="block text-[9px] text-[#CA8A04] tracking-[.3em]">PERFUMES</span>
+          </div>
+        </a>
+        <p class="text-[#78716C] text-sm font-light leading-relaxed max-w-xs">
+          Born from Arabian tradition. Crafted for the world. Each bottle holds a story — what will yours be?
+        </p>
+        <div class="flex gap-3 mt-6">
+          <a href="#" class="w-9 h-9 glass rounded-full flex items-center justify-center border border-[#44403C] hover:border-[#CA8A04] cursor-pointer transition-colors duration-200" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 glass rounded-full flex items-center justify-center border border-[#44403C] hover:border-[#CA8A04] cursor-pointer transition-colors duration-200" aria-label="TikTok">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" stroke-width="1.5" aria-hidden="true"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 glass rounded-full flex items-center justify-center border border-[#44403C] hover:border-[#CA8A04] cursor-pointer transition-colors duration-200" aria-label="Facebook">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" stroke-width="1.5" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-[#FAFAF9] text-xs tracking-wider font-medium mb-5">COLLECTIONS</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Oriental Collection</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Floral Essences</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Woody &amp; Amber</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Limited Editions</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-[#FAFAF9] text-xs tracking-wider font-medium mb-5">SUPPORT</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Shipping &amp; Returns</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Fragrance Guide</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Contact Us</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Privacy Policy</a></li>
+          <li><a href="#" class="text-[#78716C] hover:text-[#CA8A04] text-sm font-light transition-colors duration-200 cursor-pointer">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-[#292524] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-[#57534E] text-xs font-light">© 2025 Yafouh Perfumes. All rights reserved.</p>
+      <div class="flex items-center gap-5">
+        <span class="text-[#57534E] text-xs tracking-wider">VISA</span>
+        <span class="text-[#57534E] text-xs tracking-wider">MASTERCARD</span>
+        <span class="text-[#57534E] text-xs tracking-wider">PAYPAL</span>
+        <span class="text-[#57534E] text-xs tracking-wider">APPLE PAY</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  function closeMobile() { document.getElementById('mobileMenu').classList.add('hidden'); document.getElementById('menuBtn').setAttribute('aria-expanded','false'); }
+  document.getElementById('menuBtn').addEventListener('click', function() {
+    const m = document.getElementById('mobileMenu');
+    const open = m.classList.toggle('hidden') === false;
+    this.setAttribute('aria-expanded', String(open));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const id = this.getAttribute('href');
+      if (id === '#') return;
+      e.preventDefault();
+      const t = document.querySelector(id);
+      if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
+    });
+  });
+
+  // Navbar opacity on scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 60 ? 'rgba(12,10,9,0.88)' : 'rgba(255,255,255,0.06)';
+  }, { passive: true });
+</script>
+</body>
+</html>
