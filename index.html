@@ -34,39 +34,16 @@
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.1);
     }
-    @keyframes shimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
     .gold-shimmer {
       background: linear-gradient(90deg,#CA8A04,#F59E0B,#D97706,#CA8A04);
-      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: shimmer 3s linear infinite;
     }
-    @keyframes morph {
-      0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
-      50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
-    }
-    .morph-blob { animation: morph 8s ease-in-out infinite; }
-    @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(30px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .fade-in-up { animation: fadeInUp .8s ease-out forwards; }
-    @keyframes float {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-15px); }
-    }
-    .float-anim { animation: float 3s ease-in-out infinite alternate; will-change: transform; }
-    @keyframes smoke {
-      0%   { opacity:0; transform:translateY(0) scale(1); }
-      50%  { opacity:.3; }
-      100% { opacity:0; transform:translateY(-80px) scale(2); }
-    }
-    .smoke { animation: smoke 4s ease-out infinite; }
+    .morph-blob {}
+    .fade-in-up { opacity:1; }
+    .float-anim {}
+    .smoke { display:none; }
     .scroll-track { overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
     .scroll-track::-webkit-scrollbar { display:none; }
     .reveal { opacity:0; transform:translateY(40px); transition:opacity .8s ease,transform .8s ease; }
