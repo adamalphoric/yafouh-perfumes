@@ -57,10 +57,10 @@
     }
     .fade-in-up { animation: fadeInUp .8s ease-out forwards; }
     @keyframes float {
-      0%,100% { transform:translateY(0); }
-      50%      { transform:translateY(-15px); }
+      from { transform: translateY(0); }
+      to   { transform: translateY(-15px); }
     }
-    .float-anim { animation: float 6s ease-in-out infinite; }
+    .float-anim { animation: float 3s ease-in-out infinite alternate; will-change: transform; }
     @keyframes smoke {
       0%   { opacity:0; transform:translateY(0) scale(1); }
       50%  { opacity:.3; }
