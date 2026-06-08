@@ -35,15 +35,67 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
     .gold-shimmer {
-      background: linear-gradient(90deg,#CA8A04,#F59E0B,#D97706,#CA8A04);
+      background: linear-gradient(90deg,#CA8A04,#F59E0B,#FDE68A,#D97706,#CA8A04);
+      background-size: 220% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: shimmerSweep 5s linear infinite;
     }
-    .morph-blob {}
-    .fade-in-up { opacity:1; }
-    .float-anim {}
-    .smoke { display:none; }
+    @keyframes shimmerSweep { to { background-position: 220% center; } }
+
+    /* Organic morphing gold glow blobs */
+    .morph-blob {
+      border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+      animation: blobMorph 20s ease-in-out infinite;
+      will-change: transform, border-radius;
+    }
+    @keyframes blobMorph {
+      0%,100% { border-radius:42% 58% 63% 37% / 41% 44% 56% 59%; transform:translate3d(0,0,0) scale(1); }
+      33%     { border-radius:58% 42% 33% 67% / 63% 38% 62% 37%; transform:translate3d(24px,-32px,0) scale(1.08); }
+      66%     { border-radius:38% 62% 56% 44% / 47% 62% 38% 53%; transform:translate3d(-28px,18px,0) scale(.94); }
+    }
+
+    /* Gentle floating perfume bottle */
+    .float-anim { animation: floatBottle 6.5s ease-in-out infinite; will-change: transform; }
+    @keyframes floatBottle {
+      0%,100% { transform:translateY(0) rotate(0deg); }
+      50%     { transform:translateY(-16px) rotate(-1.1deg); }
+    }
+
+    /* Hero entrance — initial hidden state (revealed by anime.js) */
+    .hero-item { opacity:0; will-change:transform,opacity; }
+
+    /* Sweeping shine across buttons on hover */
+    .btn-shine { position:relative; overflow:hidden; }
+    .btn-shine::after {
+      content:''; position:absolute; top:0; left:-130%; width:60%; height:100%;
+      background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);
+      transform:skewX(-22deg); transition:left .7s cubic-bezier(.4,0,.2,1); pointer-events:none;
+    }
+    .btn-shine:hover::after { left:140%; }
+
+    /* Cursor-following spotlight glow on cards */
+    .spotlight::before {
+      content:''; position:absolute; inset:0; border-radius:inherit; z-index:5;
+      background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(202,138,4,.16),transparent 65%);
+      opacity:0; transition:opacity .4s ease; pointer-events:none;
+    }
+    .spotlight:hover::before { opacity:1; }
+
+    /* Tilt cards lift on a 3D plane */
+    .tilt { transform-style:preserve-3d; transition:transform .5s cubic-bezier(.23,1,.32,1); will-change:transform; }
+
+    /* Animated gradient border for the bestseller card */
+    .anim-border { background:linear-gradient(120deg,#CA8A04,#FDE68A,#D97706,#CA8A04); background-size:300% 300%; animation:borderFlow 6s ease infinite; }
+    @keyframes borderFlow { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+
+    /* Floating gold mist particle canvas */
+    #mist { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; opacity:.55; }
+
+    /* Scroll progress bar */
+    #scrollBar { position:fixed; top:0; left:0; height:2px; width:0; z-index:60;
+      background:linear-gradient(90deg,#CA8A04,#FDE68A,#D97706); box-shadow:0 0 10px rgba(202,138,4,.6); transition:width .1s linear; }
     .scroll-track { overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
     .scroll-track::-webkit-scrollbar { display:none; }
     .reveal { opacity:0; transform:translateY(40px); transition:opacity .8s ease,transform .8s ease; }
@@ -58,10 +110,18 @@
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:#1C1917; }
     ::-webkit-scrollbar-thumb { background:#CA8A04; border-radius:2px; }
-    @media (prefers-reduced-motion:reduce) { *,::before,::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+    @media (prefers-reduced-motion:reduce) {
+      *,::before,::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+      .hero-item { opacity:1 !important; }
+      #mist { display:none; }
+      .reveal { opacity:1 !important; transform:none !important; }
+    }
   </style>
 </head>
 <body class="bg-[#0C0A09] text-[#FAFAF9]">
+
+<div id="scrollBar" aria-hidden="true"></div>
+<canvas id="mist" aria-hidden="true"></canvas>
 
 <!-- NAV -->
 <nav class="fixed top-4 left-4 right-4 z-50 glass rounded-2xl px-6 py-3 flex items-center justify-between" id="navbar" role="navigation" aria-label="Main navigation">
@@ -88,7 +148,7 @@
         <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
       </svg>
     </button>
-    <a href="#featured" class="bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] text-sm font-medium px-5 py-2.5 rounded-full cursor-pointer transition-colors duration-200 tracking-wide">Explore</a>
+    <a href="#featured" class="btn-shine bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] text-sm font-medium px-5 py-2.5 rounded-full cursor-pointer transition-colors duration-200 tracking-wide">Explore</a>
     <button class="md:hidden w-10 h-10 flex items-center justify-center cursor-pointer" id="menuBtn" aria-label="Open menu" aria-expanded="false">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FAFAF9" stroke-width="1.5" aria-hidden="true">
         <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
@@ -121,20 +181,20 @@
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 grid lg:grid-cols-2 gap-16 items-center">
     <!-- Text -->
-    <div class="fade-in-up">
-      <p class="font-arabic text-[#CA8A04] text-2xl mb-2 tracking-wide" lang="ar" dir="rtl">يفوح عطرك في كل مكان</p>
-      <p class="text-xs text-[#A8A29E] tracking-[.35em] mb-7 font-light">YOUR SCENT. YOUR STORY.</p>
-      <h1 class="font-heading text-6xl lg:text-7xl xl:text-8xl font-light leading-tight mb-8">
+    <div>
+      <p class="hero-item font-arabic text-[#CA8A04] text-2xl mb-2 tracking-wide" lang="ar" dir="rtl">يفوح عطرك في كل مكان</p>
+      <p class="hero-item text-xs text-[#A8A29E] tracking-[.35em] mb-7 font-light">YOUR SCENT. YOUR STORY.</p>
+      <h1 class="hero-item font-heading text-6xl lg:text-7xl xl:text-8xl font-light leading-tight mb-8">
         The Art of<br>
         <span class="gold-shimmer font-semibold italic">Eternal</span><br>
         Fragrance
       </h1>
-      <p class="text-[#A8A29E] text-lg leading-relaxed max-w-lg mb-10 font-light">
+      <p class="hero-item text-[#A8A29E] text-lg leading-relaxed max-w-lg mb-10 font-light">
         Born from the ancient traditions of Arabian perfumery, Yafouh blends rare oud,
         precious amber, and exotic florals into fragrances that tell your story.
       </p>
-      <div class="flex flex-col sm:flex-row gap-4">
-        <a href="#collections" class="inline-flex items-center justify-center gap-2 bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] px-8 py-4 rounded-full font-medium text-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-[#CA8A04]/20 tracking-wide">
+      <div class="hero-item flex flex-col sm:flex-row gap-4">
+        <a href="#collections" class="btn-shine inline-flex items-center justify-center gap-2 bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] px-8 py-4 rounded-full font-medium text-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-[#CA8A04]/20 tracking-wide">
           Explore Collections
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -143,17 +203,17 @@
         </a>
       </div>
       <!-- Stats -->
-      <div class="mt-14 flex gap-10 pt-10 border-t border-[#292524]">
-        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]">150+</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Unique Scents</p></div>
-        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]">25k+</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Happy Customers</p></div>
-        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]">18</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Countries</p></div>
+      <div class="hero-item mt-14 flex gap-10 pt-10 border-t border-[#292524]">
+        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]"><span class="count" data-to="150">0</span>+</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Unique Scents</p></div>
+        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]"><span class="count" data-to="25">0</span>k+</p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Happy Customers</p></div>
+        <div><p class="font-heading text-3xl font-semibold text-[#CA8A04]"><span class="count" data-to="18">0</span></p><p class="text-[#78716C] text-xs font-light mt-1 tracking-wider">Countries</p></div>
       </div>
     </div>
 
     <!-- Bottle image -->
-    <div class="relative flex items-center justify-center" aria-label="Yafouh perfume bottle">
-      <div class="absolute w-80 h-80 rounded-full bg-gradient-to-br from-[#CA8A04]/20 to-transparent blur-3xl" aria-hidden="true"></div>
-      <img src="Images/IMG_5424.jpg" alt="Yafuh Luxury Perfume" class="relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md rounded-3xl object-cover shadow-2xl" style="max-height:580px;">
+    <div class="relative flex items-center justify-center" aria-label="Yafouh perfume bottle" data-parallax="0.12">
+      <div class="absolute w-80 h-80 rounded-full bg-gradient-to-br from-[#CA8A04]/20 to-transparent blur-3xl morph-blob" aria-hidden="true"></div>
+      <img src="Images/IMG_5424.jpg" alt="Yafuh Luxury Perfume" class="float-anim relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md rounded-3xl object-cover shadow-2xl" style="max-height:580px;">
     </div>
   </div>
 
@@ -172,11 +232,11 @@
     <div class="w-16 h-px bg-[#CA8A04] mx-auto mt-6"></div>
   </div>
 
-  <div class="grid md:grid-cols-3 gap-6">
+  <div class="grid md:grid-cols-3 gap-6" style="perspective:1200px">
 
     <!-- Card helper: dark bottle SVG -->
     <!-- OUD ROYALE -->
-    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card" aria-label="Oud Royale — $185">
+    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card tilt spotlight" aria-label="Oud Royale — $185">
       <div class="h-72 relative overflow-hidden">
         <img src="Images/IMG_5422.jpg" alt="Oud Royale" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-[#0C0A09]/20 to-transparent"></div>
@@ -200,8 +260,8 @@
     </article>
 
     <!-- DESERT ROSE (featured) -->
-    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card md:-mt-8" aria-label="Desert Rose — $145, bestseller">
-      <div class="absolute inset-0 rounded-3xl border border-[#CA8A04]/45 z-10 pointer-events-none"></div>
+    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card tilt spotlight md:-mt-8" aria-label="Desert Rose — $145, bestseller">
+      <div class="anim-border absolute inset-0 rounded-3xl z-20 pointer-events-none" style="padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;"></div>
       <div class="relative overflow-hidden" style="height:22rem">
         <img src="Images/IMG_5418.jpg" alt="Desert Rose" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-[#0C0A09]/20 to-transparent"></div>
@@ -218,13 +278,13 @@
         <p class="text-[#A8A29E] text-sm font-light leading-relaxed mb-4">Wild Taif roses kissed by golden amber, musk, and Moroccan sandalwood.</p>
         <div class="flex items-center justify-between">
           <span class="text-[#CA8A04] text-sm tracking-wider" aria-label="5 stars">★★★★★</span>
-          <button class="bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] text-sm font-medium px-4 py-2 rounded-full cursor-pointer transition-colors duration-200" aria-label="Add Desert Rose to cart">Add to Cart</button>
+          <button class="btn-shine bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] text-sm font-medium px-4 py-2 rounded-full cursor-pointer transition-colors duration-200" aria-label="Add Desert Rose to cart">Add to Cart</button>
         </div>
       </div>
     </article>
 
     <!-- AMBER NIGHTS -->
-    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card" aria-label="Amber Nights — $165">
+    <article class="group relative overflow-hidden rounded-3xl cursor-pointer product-card tilt spotlight" aria-label="Amber Nights — $165">
       <div class="h-72 relative overflow-hidden">
         <img src="Images/IMG_5419.jpg" alt="Amber Nights" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0C0A09] via-[#0C0A09]/20 to-transparent"></div>
@@ -346,7 +406,7 @@
       <!-- Reusable mini-bottle colors: spicy=#78350F, musky=#312E81, woody=#064E3B, luxe=#78350F, floral=#831843, fresh=#0C4A6E -->
       <!-- Item template (6 cards) -->
       <!-- 1 Saffron Mirage -->
-      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Saffron Mirage $120">
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card spotlight w-56 flex-shrink-0" aria-label="Saffron Mirage $120">
         <div class="h-52 bg-gradient-to-br from-[#3B2B1A] to-[#1C1917] relative flex items-center justify-center">
           <div class="absolute w-24 h-24 rounded-full bg-[#CA8A04] opacity-20 blur-xl" aria-hidden="true"></div>
           <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
@@ -372,7 +432,7 @@
       </article>
 
       <!-- 2 Musk Velvet -->
-      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Musk Velvet $95">
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card spotlight w-56 flex-shrink-0" aria-label="Musk Velvet $95">
         <div class="h-52 bg-gradient-to-br from-[#1C1C2A] to-[#0C0A09] relative flex items-center justify-center">
           <div class="absolute w-24 h-24 rounded-full bg-[#818CF8] opacity-15 blur-xl" aria-hidden="true"></div>
           <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
@@ -398,7 +458,7 @@
       </article>
 
       <!-- 3 Cedar & Smoke -->
-      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Cedar and Smoke $110">
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card spotlight w-56 flex-shrink-0" aria-label="Cedar and Smoke $110">
         <div class="h-52 bg-gradient-to-br from-[#1C2020] to-[#0C0A09] relative flex items-center justify-center">
           <div class="absolute w-24 h-24 rounded-full bg-[#059669] opacity-12 blur-xl" aria-hidden="true"></div>
           <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
@@ -424,7 +484,7 @@
       </article>
 
       <!-- 4 Gold Velvet -->
-      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Gold Velvet $220">
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card spotlight w-56 flex-shrink-0" aria-label="Gold Velvet $220">
         <div class="h-52 bg-gradient-to-br from-[#2A2010] to-[#1C1917] relative flex items-center justify-center">
           <div class="absolute w-24 h-24 rounded-full bg-[#F59E0B] opacity-20 blur-xl" aria-hidden="true"></div>
           <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
@@ -450,7 +510,7 @@
       </article>
 
       <!-- 5 Rose Oud -->
-      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Rose Oud $175">
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card spotlight w-56 flex-shrink-0" aria-label="Rose Oud $175">
         <div class="h-52 bg-gradient-to-br from-[#2A1020] to-[#1C0C14] relative flex items-center justify-center">
           <div class="absolute w-24 h-24 rounded-full bg-[#EC4899] opacity-15 blur-xl" aria-hidden="true"></div>
           <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
@@ -476,7 +536,7 @@
       </article>
 
       <!-- 6 Aqua Arabica -->
-      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card w-56 flex-shrink-0" aria-label="Aqua Arabica $85">
+      <article class="glass rounded-2xl overflow-hidden border border-[#292524] hover:border-[#CA8A04]/40 transition-all duration-300 cursor-pointer product-card spotlight w-56 flex-shrink-0" aria-label="Aqua Arabica $85">
         <div class="h-52 bg-gradient-to-br from-[#0C1A28] to-[#0C0A09] relative flex items-center justify-center">
           <div class="absolute w-24 h-24 rounded-full bg-[#38BDF8] opacity-15 blur-xl" aria-hidden="true"></div>
           <svg width="55" height="88" viewBox="0 0 55 88" fill="none" class="relative z-10" aria-hidden="true">
@@ -590,7 +650,7 @@
       <label for="emailInput" class="sr-only">Your email address</label>
       <input id="emailInput" type="email" placeholder="your@email.com" required
         class="luxury-input flex-1 bg-[#1C1917]/80 border border-[#44403C] text-[#FAFAF9] placeholder-[#78716C] px-5 py-3.5 rounded-full font-light text-sm transition-all duration-200">
-      <button type="submit" class="bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] px-7 py-3.5 rounded-full font-medium text-sm cursor-pointer transition-colors duration-200 tracking-wide whitespace-nowrap">
+      <button type="submit" class="btn-shine bg-[#CA8A04] hover:bg-[#D97706] text-[#0C0A09] px-7 py-3.5 rounded-full font-medium text-sm cursor-pointer transition-colors duration-200 tracking-wide whitespace-nowrap">
         Subscribe
       </button>
     </form>
@@ -661,6 +721,7 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js" defer></script>
 <script>
   // Mobile menu
   function closeMobile() { document.getElementById('mobileMenu').classList.add('hidden'); document.getElementById('menuBtn').setAttribute('aria-expanded','false'); }
@@ -689,9 +750,115 @@
 
   // Navbar opacity on scroll
   const nav = document.getElementById('navbar');
+
+  // ===================== ANIMATION LAYER =====================
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Staggered hero entrance (anime.js) + count-up stats
+  function countUp() {
+    document.querySelectorAll('.count').forEach(el => {
+      const to = +el.dataset.to;
+      if (reduceMotion || typeof anime === 'undefined') { el.textContent = to; return; }
+      const obj = { v: 0 };
+      anime({ targets: obj, v: to, round: 1, duration: 1700, delay: 450,
+        easing: 'easeOutCubic', update() { el.textContent = obj.v; } });
+    });
+  }
+  function runEntrance() {
+    if (reduceMotion || typeof anime === 'undefined') {
+      document.querySelectorAll('.hero-item').forEach(el => { el.style.opacity = 1; });
+    } else {
+      anime({ targets: '.hero-item', opacity: [0, 1], translateY: [30, 0],
+        duration: 900, delay: anime.stagger(110), easing: 'easeOutExpo' });
+    }
+    countUp();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runEntrance);
+  else runEntrance();
+
+  // Scroll progress bar + hero parallax (single rAF-throttled handler)
+  const scrollBar = document.getElementById('scrollBar');
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  let ticking = false;
+  function onScrollFx() {
+    const y = window.pageYOffset;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    scrollBar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+    nav.style.background = y > 60 ? 'rgba(12,10,9,0.88)' : 'rgba(255,255,255,0.06)';
+    if (!reduceMotion) {
+      for (const el of parallaxEls) {
+        const speed = parseFloat(el.dataset.parallax);
+        const r = el.getBoundingClientRect();
+        const offset = (r.top + r.height / 2 - window.innerHeight / 2) * -speed;
+        el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+      }
+    }
+    ticking = false;
+  }
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 60 ? 'rgba(12,10,9,0.88)' : 'rgba(255,255,255,0.06)';
+    if (!ticking) { requestAnimationFrame(onScrollFx); ticking = true; }
   }, { passive: true });
+  onScrollFx();
+
+  // Cursor-following spotlight glow
+  document.querySelectorAll('.spotlight').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Magnetic 3D tilt (pointer-capable devices only)
+  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.tilt').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rx = (py - 0.5) * -7;
+        const ry = (px - 0.5) * 7;
+        card.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-8px) scale(1.015)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  // Floating gold mist particles ("perfume in the air")
+  (function mist() {
+    const c = document.getElementById('mist');
+    if (!c || reduceMotion) return;
+    const ctx = c.getContext('2d');
+    let w, h, parts;
+    const spawn = () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      r: Math.random() * 1.8 + 0.5,
+      vy: -(Math.random() * 0.28 + 0.08), vx: (Math.random() - 0.5) * 0.18,
+      a: Math.random() * 0.35 + 0.08, t: Math.random() * 6.28
+    });
+    function resize() {
+      w = c.width = window.innerWidth;
+      h = c.height = window.innerHeight;
+      parts = Array.from({ length: Math.min(48, Math.floor(w / 30)) }, spawn);
+    }
+    function tick() {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of parts) {
+        p.t += 0.01;
+        p.y += p.vy;
+        p.x += p.vx + Math.sin(p.t) * 0.14;
+        if (p.y < -12) { p.y = h + 12; p.x = Math.random() * w; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+        ctx.fillStyle = `rgba(202,138,4,${p.a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+    tick();
+  })();
 </script>
 </body>
 </html>
