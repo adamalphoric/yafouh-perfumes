@@ -111,10 +111,12 @@
     ::-webkit-scrollbar-track { background:#1C1917; }
     ::-webkit-scrollbar-thumb { background:#CA8A04; border-radius:2px; }
     @media (prefers-reduced-motion:reduce) {
-      *,::before,::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
-      .hero-item { opacity:1 !important; }
-      #mist { display:none; }
+      /* Only disable real movement — keep gentle color-only effects
+         (.gold-shimmer, .anim-border) alive since they don't move anything. */
+      .float-anim, .morph-blob { animation:none !important; transform:none !important; }
+      .hero-item { opacity:1 !important; transform:none !important; }
       .reveal { opacity:1 !important; transform:none !important; }
+      #mist { display:none; }
     }
   </style>
 </head>
